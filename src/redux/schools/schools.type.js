@@ -1,0 +1,1 @@
+export const SAVE_SCHOOL =' SAVE_SCHOOL'
