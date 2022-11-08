@@ -11,9 +11,9 @@ export const selectProducts = createSelector(
 export const selectCategories = createSelector(
     [SELECT_PRODUCTS],
     categories => categories.categories
-  );
+);
 
-  export const selectCart = createSelector(
-    [SELECT_PRODUCTS],
-    cart => cart.cart
-  );
+export const selectCart = createSelector(
+  [SELECT_PRODUCTS],
+  cart => cart.cart
+);

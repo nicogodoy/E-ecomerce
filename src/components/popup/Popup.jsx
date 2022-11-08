@@ -8,7 +8,7 @@ const PopupContainer = styled.div`
     position: fixed;
     top: 0;
     background-color: rgba(0, 0, 0, 0.1);
-    z-index: 9999;
+    z-index: 100;
     transition: opacity 0.1s cubic-bezier(0.65, -0.05, 0.91, 0.98);
 `
 

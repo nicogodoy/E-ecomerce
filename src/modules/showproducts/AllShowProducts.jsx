@@ -10,6 +10,7 @@ import {
   IconCart,
   ProductsContainer,
   IconBack,
+  CountCart
 } from "./showproducts";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { nextStep, prevStep, twoStep } from "../../redux/step/step.actions";
@@ -20,6 +21,7 @@ import { useEffect, useState } from "react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import ModalProduct from "../../components/ModalProduct/ModalProduct";
 import {
+  selectCart,
   selectCategories,
   selectProducts,
 } from "../../redux/products/product.selector";
@@ -29,16 +31,11 @@ import {
   addProducts
 } from "../../redux/products/product.action";
 
-const AllShowProducts = ({
-  nextStep,
-  prevStep,
-  selectSchoolsId,
-  saveProducts,
-  products,
-  saveCategories,
-  categories,
-  addProducts
-}) => {
+const AllShowProducts = ({ ...state }) => {
+
+  const { cart, products, categories, selectSchoolsId, ...actions } = state;
+  const { nextStep, prevStep, saveProducts, saveCategories, addProducts } = actions;
+
   const [modal, setModal] = useState(false);
   const [productModal, setProductModal] = useState([]);
   const [categorieSelected, setCategorieSelected] = useState([]);
@@ -63,7 +60,8 @@ const AllShowProducts = ({
     setModal(false);
   };
 
-  
+  console.log(cart);
+
   return (
     <ShopContainer>
       {modal && (
@@ -100,6 +98,7 @@ const AllShowProducts = ({
       </ProductsContainer>
       <IconCart onClick={nextStep}>
         <AiOutlineShoppingCart />
+        {cart.length >= 1 && <CountCart>{cart.length}</CountCart>}
       </IconCart>
       <IconBack onClick={prevStep}>
         <BsFillArrowLeftCircleFill />
@@ -113,6 +112,7 @@ const mapStateToProps = createStructuredSelector({
   selectSchoolsId: selectSchoolsId,
   products: selectProducts,
   categories: selectCategories,
+  cart: selectCart
 });
 
 const mapDispatchToProps = {

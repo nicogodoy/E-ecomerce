@@ -1,10 +1,12 @@
 import { connect } from "react-redux";
 import { ContainerStyle, CenterButton, Button } from "../../stylesContainers/container";
-import { nextStep, prevStep, twoStep } from "../../redux/step/step.actions";
-import { createStructuredSelector } from "reselect";
-import { selectStep } from "../../redux/step/step.selectors";
+import { nextStep } from "../../redux/step/step.actions";
 
-const Home = ({ nextStep }) => {
+const Home = ({ ...state }) => {
+
+  const { ...actions } = state;
+  const { nextStep } = actions;
+
   return (
     <ContainerStyle>
       <CenterButton>
@@ -16,8 +18,6 @@ const Home = ({ nextStep }) => {
 
 const mapDispatchToProps = {
   nextStep,
-  prevStep,
-  twoStep,
 };
 
-export default connect(null,mapDispatchToProps)(Home) 
+export default connect(null, mapDispatchToProps)(Home) 

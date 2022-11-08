@@ -17,17 +17,33 @@ import Image from "next/image";
 import { IconBack } from "../showproducts/showproducts";
 import { selectCart } from "../../redux/products/product.selector";
 import { deletedProduct } from "../../redux/products/product.action";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Swal from 'sweetalert2'
 
-const CartList = ({
-  nextStep,
-  prevStep,
-  school,
-  selectCart,
-  deletedProduct,
-}) => {
+const CartList = ({ ...state }) => {
+
+  const { selectCart, ...action } = state;
+  const { nextStep, prevStep, deletedProduct } = action;
+
   const itemDeleted = (id) => {
-    deletedProduct(id);
+
+    Swal.fire({
+      title: 'Estas seguro que deseas eliminar este producto?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletedProduct(id);
+        Swal.fire(
+          'Eliminado!',
+          'Este producto fue eliminado correctamente.',
+          'success'
+        )
+      }
+    })
   };
 
   const [total, setTotal] = useState(0);
@@ -84,7 +100,6 @@ const CartList = ({
 };
 
 const mapStateToProps = createStructuredSelector({
-  step: selectStep,
   selectCart: selectCart,
 });
 

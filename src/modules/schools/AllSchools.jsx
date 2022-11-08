@@ -9,7 +9,11 @@ import { selectSchools } from "../../redux/schools/schools.selector";
 import { nextStep, prevStep, twoStep } from "../../redux/step/step.actions";
 import { saveSchool } from "../../redux/schools/schools.actions";
 
-const AllSchools = ({ nextStep, prevStep, saveSchool, school }) => {
+const AllSchools = ({ ...state }) => {
+
+  const { step, school, ...actions } = state;
+  const { nextStep, prevStep, saveSchool } = actions;
+
   const getSchool = (id) => {
     saveSchool(id);
     nextStep();

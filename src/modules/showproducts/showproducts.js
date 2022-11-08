@@ -71,6 +71,23 @@ const ProductsContainer = styled.div`
   height: 100vh;
   overflow-y: scroll;
 `;
+
+const CountCart = styled.div`
+  position: absolute;
+  right: 0;
+  left: 50px;
+  bottom: 0;
+  background: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 800;
+`;
+
 export {
   ShopContainer,
   BoxSchool,
@@ -79,4 +96,5 @@ export {
   IconCart,
   ProductsContainer,
   IconBack,
+  CountCart
 };

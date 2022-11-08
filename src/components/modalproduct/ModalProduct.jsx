@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import styled from "styled-components";
+import Swal from 'sweetalert2'
 
 const FlexModal = styled.div`
   display: flex;
@@ -77,9 +78,21 @@ function ModalProduct({ productModal, addProducts, close, products }) {
   const addProduct = () => {
     if (size) {
       addProducts(size, count, products);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Producto agregado al carrito',
+        showConfirmButton: false,
+        timer: 1500
+      })
       close();
     } else {
-      window.alert("seleccione un talle");
+      Swal.fire({
+        title: 'Espera!',
+        text: 'Seleccione un talle para continuar',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
     }
   };
 
