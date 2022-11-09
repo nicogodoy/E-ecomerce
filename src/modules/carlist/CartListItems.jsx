@@ -15,51 +15,59 @@ import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import { IconBack } from "../showproducts/showproducts";
-import { selectCart } from "../../redux/products/product.selector";
+import { selectCart, selectProducts } from "../../redux/products/product.selector";
 import { deletedProduct } from "../../redux/products/product.action";
 import { useState } from "react";
-import Swal from 'sweetalert2'
-
+import Swal from "sweetalert2";
+import Popup from "../../components/popup/Popup";
+import ModalEdit from "../../components/modaledit/ModalEdit";
 const CartList = ({ ...state }) => {
+  const [modal, setModal] = useState(false);
+  const [idProduct, setIdProduct] = useState(null);
 
-  const { selectCart, ...action } = state;
+
+  const { cart,products, ...action } = state;
   const { nextStep, prevStep, deletedProduct } = action;
 
   const itemDeleted = (id) => {
-
     Swal.fire({
-      title: 'Estas seguro que deseas eliminar este producto?',
-      icon: 'warning',
+      title: "Estas seguro que deseas eliminar este producto?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminar!",
     }).then((result) => {
       if (result.isConfirmed) {
         deletedProduct(id);
         Swal.fire(
-          'Eliminado!',
-          'Este producto fue eliminado correctamente.',
-          'success'
-        )
+          "Eliminado!",
+          "Este producto fue eliminado correctamente.",
+          "success"
+        );
       }
-    })
+    });
   };
 
   const [total, setTotal] = useState(0);
 
-  // useEffect(() => {
-  //   selectCart.forEach((item) => {
-  //     setTotal(total + (item.count * item.size.unitprice.cashprice));
-  //   });
+  const openModalEdit = (item) => {
+    setIdProduct(item.order._id);
+    setModal(true);
+  };
 
-  //   console.log(total);
-  // }, []);
-
+  const closeModal = () => {
+    setModal(false);
+  };
   return (
     <ContainerList>
-      {selectCart.length >= 1 &&
-        selectCart.map((item, id) => {
+      {modal && (
+        <Popup close={closeModal}>
+          <ModalEdit close={closeModal} products={products} cart={cart} idProduct={idProduct} />
+        </Popup>
+      )}
+      {cart.length >= 1 &&
+        cart.map((item, id) => {
           return (
             <DivList key={id}>
               <ProductContainer>
@@ -84,7 +92,7 @@ const CartList = ({ ...state }) => {
                 >
                   <AiFillDelete />
                 </BtnDeleted>
-                <BtnEdit>
+                <BtnEdit onClick={() => openModalEdit(item)}>
                   <AiFillEdit />
                 </BtnEdit>
               </BtnContainer>
@@ -100,7 +108,8 @@ const CartList = ({ ...state }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  selectCart: selectCart,
+  cart: selectCart,
+  products: selectProducts,
 });
 
 const mapDispatchToProps = {
